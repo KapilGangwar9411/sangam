@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sangam</title>
+    <style>
+        @font-face {
+            font-family: k;
+            src: url("Bricolage.ttf");
+        }
+        body {
+            font-family: k;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            min-height: 50vh;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .left-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex: 1;
+        }
+
+        .logo {
+            max-width: 200px;
+            margin-bottom: 20px;
+            width: auto;
+            height: auto;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .photo {
+            flex: 0 0 30%;
+            width: 100%;
+            max-width: 380px;
+            height: auto;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .download-section {
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #fff;
+            color: #007bff;
+            padding: 12px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #00008b;
+            color: white;
+            box-shadow: 0px 7px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .downloads {
+            margin-top: 15px;
+            font-size: 18px;
+            color: white;
+        }
+
+        /* Media Queries for responsiveness */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                padding: 20px;
+                min-height: auto;
+            }
+
+            .hero-content {
+                flex-direction: column;
+            }
+
+            .photo {
+                margin-top: 20px;
+                max-width: 80%;
+                height: auto;
+                object-fit: contain;
+            }
+
+            .logo {
+                max-width: 100px;
+            }
+
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 3em;
+            }
+
+            .logo {
+                max-width: 80px;
+            }
+
+            .photo {
+                max-width: 70%;
+                height: auto;
+                object-fit: contain;
+            }
+
+            button {
+                padding: 8px 18px;
+                font-size: 14px;
+            }
+
+            .downloads {
+                font-size: 16px;
+            }
+        }
+
+        @media (orientation: landscape) {
+            .hero {
+                padding: 30px;
+                min-height: 40vh;
+            }
+
+            .photo {
+                max-width: 50vw;
+                height: auto;
+                object-fit: cover;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+<!-- First Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="left-section">
+            <img src="Logo.png" alt="Logo" class="logo">
+            <h1>Dsw Annual Magazine 2024-25</h1>
+            <div class="download-section">
+                <button id="download-btn-1" onclick="downloadPDF('1')">Download PDF</button>
+                <div class="downloads">
+                    Downloads Till Now<br>
+                    <span id="download-count-1">0</span>
+                </div>
+            </div>
+        </div>
+        <img class="photo" src="frontpage.png" alt="A4 Image">
+    </div>
+</section>
+
+<!-- Second Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="left-section">
+            <img src="Logo.png" alt="Logo" class="logo">
+            <h1>Dsw Annual Magazine 2023-24</h1>
+            <div class="download-section">
+                <button id="download-btn-2" onclick="downloadPDF('2')">Download PDF</button>
+                <div class="downloads">
+                    Downloads Till Now<br>
+                    <span id="download-count-2">0</span>
+                </div>
+            </div>
+        </div>
+        <img class="photo" src="front2.png" alt="Image">
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchDownloadCount('1');
+        fetchDownloadCount('2');
+    });
+
+    function fetchDownloadCount(section) {
+        fetch(`http://localhost:3000/downloads/${section}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(`download-count-${section}`).textContent = data.count;
+            });
+    }
+
+    function downloadPDF(section) {
+        let pdfUrl = '';
+
+        if (section === '1') {
+            pdfUrl = 'https://drive.google.com/file/d/1TbmEzYBehfeeKcY7etp11ZRMrM-AHL-Q/view?usp=drive_link';
+        } else if (section === '2') {
+            pdfUrl = 'https://drive.google.com/file/d/13tZuRAld-MWbhVQ2OEvmEFKVNoIiXGCU/view?usp=drive_link';
+        }
+
+        fetch(`http://localhost:3000/downloads/${section}`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(`download-count-${section}`).textContent = data.count;
+            });
+
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = '';
+        link.click();
+    }
+</script>
+
+</body>
+</html>
